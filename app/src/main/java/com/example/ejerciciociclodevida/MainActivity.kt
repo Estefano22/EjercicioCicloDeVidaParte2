@@ -5,12 +5,23 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import com.example.ejerciciociclodevida.databinding.ActivityMainBinding
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
     // Esto hay que crearlo siempre
     lateinit var binding: ActivityMainBinding
     var contador = 1
+
+    var listaPersonas = mutableListOf(
+        Persona("Estefano",20,8.3,1.69),
+        Persona("Juan",19,7.7,1.74),
+        Persona("Alex",22,6.8,1.65),
+        Persona("Ricardo",21,6.3,1.63),
+
+        )
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,41 +43,69 @@ class MainActivity : AppCompatActivity() {
         binding.tvText.text = "Texto Modificado usando el binding"
 
 
-        Log.w("Carlos", "onCreate ${contador++}")
+        Log.w("Estefano", "onCreate ${contador++}")
+
+        mostrarlistasPersonas()
 
     }
 
     override fun onStart() {
         super.onStart()
-        Log.w("Carlos", "onStart ${contador++}")
+        Log.w("Estefano", "onStart ${contador++}")
 
     }
 
     override fun onResume() {
         super.onResume()
-        Log.w("Carlos", "onResume ${contador++}")
+        Log.w("Estefano", "onResume ${contador++}")
 
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.w("Carlos", "onRestart ${contador++}")
+        Log.w("Estefano", "onRestart ${contador++}")
 
     }
 
     override fun onPause() {
-        Log.w("Carlos", "onPause ${contador++}")
+        Log.w("Estefano", "onPause ${contador++}")
         super.onPause()
     }
 
     override fun onStop() {
-        Log.w("Carlos", "onStop ${contador++}")
+        Log.w("Estefano", "onStop ${contador++}")
         super.onStop()
     }
 
     override fun onDestroy() {
-        Log.w("Carlos", "onDestroy ${contador++}")
+        Log.w("Estefano", "onDestroy ${contador++}")
         super.onDestroy()
+    }
+
+
+    fun mostrarlistasPersonas(){
+
+        val opcion = Random.nextInt(0, 3)
+        when(opcion){
+
+            0 -> listaPersonas.sortBy { it.nombre }
+            1 -> listaPersonas.sortBy { it.edad }
+            2 -> listaPersonas.sortByDescending { it.nombre }
+            3 -> listaPersonas.sortByDescending { it.altura }
+
+            else -> Log.e("Estefano", "Se ha recibido una opción inesperada, opcion = $opcion")
+        }
+
+        binding.tvText.text = listaPersonas.toString()
+
+    }
+
+    data class Persona(var nombre : String, var edad : Int, var notamedia : Double, var altura : Double) {
+        override fun toString(): String {
+            return "\nMe llamo $nombre, tengo $edad, mi nota media es $notamedia, y mido $altura \n"
+        }
+
+
     }
 
 
