@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         Persona("Juan",19,7.7,1.74),
         Persona("Alex",22,6.8,1.65),
         Persona("Ricardo",21,6.3,1.63),
-
         )
 
 
@@ -40,12 +39,14 @@ class MainActivity : AppCompatActivity() {
             viewBinding = true
         }
         */
-        binding.tvText.text = "Texto Modificado usando el binding"
+        binding.tvText.text = "Lista de personas"
+        binding.tvText2.text = "Criterio Ordenacion"
 
 
         Log.w("Estefano", "onCreate ${contador++}")
 
         mostrarlistasPersonas()
+
 
     }
 
@@ -85,20 +86,24 @@ class MainActivity : AppCompatActivity() {
 
     fun mostrarlistasPersonas(){
 
-        val opcion = Random.nextInt(0, 3)
-        when(opcion){
+        val opcion1 = Random.nextInt(0, 3)
+        when(opcion1){
 
-            0 -> listaPersonas.sortBy { it.nombre }
+            0 -> listaPersonas.sortBy { binding.tvText2.text = "Se ha ordenado por nombre de Mayor a Menor"
+                it.nombre }
             1 -> listaPersonas.sortBy { it.edad }
             2 -> listaPersonas.sortByDescending { it.nombre }
-            3 -> listaPersonas.sortByDescending { it.altura }
+            3 -> listaPersonas.sortByDescending { binding.tvText2.text = "Se ha ordenado de más alto a más bajo"
+                it.altura }
 
-            else -> Log.e("Estefano", "Se ha recibido una opción inesperada, opcion = $opcion")
         }
 
         binding.tvText.text = listaPersonas.toString()
 
     }
+
+
+
 
     data class Persona(var nombre : String, var edad : Int, var notamedia : Double, var altura : Double) {
         override fun toString(): String {
