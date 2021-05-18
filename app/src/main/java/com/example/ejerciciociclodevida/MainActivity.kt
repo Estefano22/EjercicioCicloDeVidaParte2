@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         val opcion1 = Random.nextInt(0, 3)
         when(opcion1){
 
-            0 -> listaPersonas.sortBy { binding.tvText2.text = "Se ha ordenado por nombre de Mayor a Menor"
+            0 -> listaPersonas.sortBy { binding.tvText2.text = "Se ha ordenado por nombre de Mayor a Menor\n"
                 it.nombre }
             1 -> listaPersonas.sortBy { it.edad }
             2 -> listaPersonas.sortByDescending { it.nombre }
