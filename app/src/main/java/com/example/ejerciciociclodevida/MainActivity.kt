@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         Persona("Juan",19,7.7,1.74),
         Persona("Alex",22,6.8,1.65),
         Persona("Ricardo",21,6.3,1.63),
-        )
+    )
 
 
 
@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             viewBinding = true
         }
         */
+
         binding.tvText.text = "Lista de personas"
         binding.tvText2.text = "Criterio Ordenacion"
 
@@ -89,29 +90,36 @@ class MainActivity : AppCompatActivity() {
         val opcion1 = Random.nextInt(0, 3)
         when(opcion1){
 
-            0 -> listaPersonas.sortBy { binding.tvText2.text = "Se ha ordenado por nombre de Mayor a Menor\n"
-                it.nombre }
-            1 -> listaPersonas.sortBy { it.edad }
-            2 -> listaPersonas.sortByDescending { it.nombre }
-            3 -> listaPersonas.sortByDescending { binding.tvText2.text = "Se ha ordenado de más alto a más bajo"
-                it.altura }
+            0 -> {
+                binding.tvText2.text = "Se ha ordenado por nombre de Menor a Mayor"
+                listaPersonas.sortBy { it.nombre }
+            }
+            1 -> {
+                binding.tvText2.text = "Ordenado de Menor a Mayor por edad"
+                listaPersonas.sortBy { it.edad }
+            }
+
+            2 -> {
+                binding.tvText2.text = "Se ha ordenado por nombre de Mayor a Menor"
+                listaPersonas.sortByDescending { it.nombre }
+            }
+
+            3 -> {
+                binding.tvText2.text = "Se ha ordenado de más alto a más bajo"
+                listaPersonas.sortByDescending { it.altura }
+            }
 
         }
 
-        binding.tvText.text = listaPersonas.toString()
+        binding.tvText.text = listaPersonas.toString().replace("[", "").replace("]","").replace(",","")
 
     }
-
-
-
 
     data class Persona(var nombre : String, var edad : Int, var notamedia : Double, var altura : Double) {
         override fun toString(): String {
             return "\nMe llamo $nombre, tengo $edad, mi nota media es $notamedia, y mido $altura \n"
         }
 
-
     }
-
 
 }
