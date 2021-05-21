@@ -1,5 +1,6 @@
 package com.example.ejerciciociclodevida
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +11,17 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     // Esto hay que crearlo siempre
+
+    companion object{
+        const val  TAG_NOMBRE = "1234"
+        const val  TAG_EDAD = "4321"
+        const val TAG_NOTA = "1256f"
+        const val  TAG_ALTURA = "135c4523r"
+    }
+
     lateinit var binding: ActivityMainBinding
     var contador = 1
+
 
     var listaPersonas = mutableListOf(
         Persona("Estefano",20,8.3,1.69),
@@ -20,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         Persona("Ricardo",21,6.3,1.63),
     )
 
+    val p = Persona("Tio raro",Random.nextInt(),6.3,1.63)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +39,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        cargarPreferencias()?.let {
+            binding.tvText.setText(it.nombre + it.altura)
+            binding.tvText2.setText("${it.edad} y ${ it.notamedia}") // siempre hay que  definir un string ya que si tienen un int y un float el textview no sabe reconocer int
+        }
 
         // Forma 1 de obtener el text view
         val textView1 = findViewById<TextView>(R.id.tv_text)
@@ -76,6 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         Log.w("Estefano", "onStop ${contador++}")
+        guardarPreferencias(
         super.onStop()
     }
 
@@ -113,6 +130,31 @@ class MainActivity : AppCompatActivity() {
 
         binding.tvText.text = listaPersonas.toString().replace("[", "").replace("]","").replace(",","")
 
+    }
+
+    private fun cargarPreferencias() : Persona {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        var nombre = sharedPref.getString(TAG_NOMBRE, "")
+        var edad = sharedPref.getInt(TAG_EDAD, 0)
+        var altura = sharedPref.getFloat(TAG_NOTA, 0F)
+        var notamedia =  sharedPref.getFloat(TAG_ALTURA, 0F)
+
+        nombre?.let {
+            return Persona(it, edad, altura.toDouble(), notamedia.toDouble())
+        } ?: run {
+            return Persona("No tiene nombre", edad, altura.toDouble(), notamedia.toDouble())
+        }
+    }
+    private fun guardarPreferencias(p:Persona) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+
+        with (sharedPref.edit()) {
+            putString(TAG_NOMBRE, p.nombre)
+            putInt(TAG_EDAD, p.edad)
+            putFloat(TAG_ALTURA, p.altura.toFloat())
+            putFloat(TAG_NOTA, p.notamedia.toFloat())
+            commit()
+        }
     }
 
     data class Persona(var nombre : String, var edad : Int, var notamedia : Double, var altura : Double) {
