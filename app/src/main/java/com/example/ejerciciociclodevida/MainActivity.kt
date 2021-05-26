@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
         Log.w("Estefano", "onRestart ${contador++}")
 
+
     }
 
     override fun onPause() {
@@ -91,9 +92,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        Log.w("Estefano", "onStop ${contador++}")
-        guardarPreferencias(
         super.onStop()
+        Log.w("Estefano", "onStop ${contador++}")
+
+
     }
 
     override fun onDestroy() {
